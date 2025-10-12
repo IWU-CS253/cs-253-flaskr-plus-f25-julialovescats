@@ -26,13 +26,23 @@
     </form>
     <ul class="entries">
         {% for entry in entries %}
-            <li><h2>{{ entry.title }}</h2>
+            <li>
+                <h2>{{ entry.title }}</h2>
                 <h4>Text: {{ entry.text|safe }}</h4>
-                {% if entry.category %}<h4>Category: {{ entry.category | safe }}</h4>{% else %}
-                    <form action="{{ url_for('add_category') }}" method="post" class="add-category"><h4> Add
-                        category: </h4><input type="text" name="category"><input type="hidden" name="id"
-                                                                                 value="{{ entry.id }}"><input
-                            type="submit" value="Share"></form>{% endif %}</li>
+                {% if entry.category %}
+                    <h4>Category: {{ entry.category | safe }}</h4>
+                {% else %}
+                    <form action="{{ url_for('add_category') }}" method="post" class="add-category">
+                        <h4> Add category: </h4>
+                        <input type="text" name="category"><input type="hidden" name="id" value="{{ entry.id }}">
+                        <input type="submit" value="Share">
+                    </form>
+                {% endif %}
+            <form action ="{{ url_for('delete_entry') }}" method="post" class="delete-entry">
+                <input type="hidden" name="id" value="{{ entry.id }}">
+                <button type="submit">Delete Entry</button>
+            </form>
+            </li>
         {% else %}
             <li><em>Unbelievable. No entries here so far</em></li>
         {% endfor %}

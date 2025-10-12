@@ -98,5 +98,15 @@ def add_category():
                [request.form['category'], request.form['id']])
 
     db.commit()
-    flash('Updated category sucessfully')
+    flash('Updated category successfully')
+    return redirect(url_for('show_entries'))
+
+@app.route('/delete_entry', methods=['POST'])
+def delete_entry():
+    db = get_db()
+    db.execute('delete from entries where id = ?',
+               [request.form['id']])
+
+    db.commit()
+    flash('Deleted entry successfully')
     return redirect(url_for('show_entries'))
