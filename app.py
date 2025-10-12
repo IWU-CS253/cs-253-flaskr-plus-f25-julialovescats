@@ -64,12 +64,22 @@ def close_db(error):
         g.sqlite_db.close()
 
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def show_entries():
     db = get_db()
-    cur = db.execute('select id, title, text, category from entries order by id desc')
+    category = request.args.get('category')
+
+    if category:
+        cur = db.execute('select id, title, text, category from entries where category = ?',
+                         [category])
+    else:
+        cur = db.execute('select id, title, text, category from entries order by id desc')
+
+    categories = db.execute(
+        'select distinct category from entries where category is not null'
+    ).fetchall()
     entries = cur.fetchall()
-    return render_template('show_entries.html', entries=entries)
+    return render_template('show_entries.html', entries=entries, categories=categories)
 
 
 @app.route('/add', methods=['POST'])

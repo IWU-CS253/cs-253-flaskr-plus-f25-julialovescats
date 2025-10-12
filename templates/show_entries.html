@@ -11,6 +11,17 @@
             <dd><input type="submit" value="Share">
         </dl>
     </form>
+    <form action="{{ url_for('show_entries') }}" method="get">
+        <h2>Filter by category:</h2>
+        {% for cat in categories %}
+            {% if cat.category %}
+                <h4>{{ cat.category }}</h4>
+                <input type="radio" name="category" value="{{ cat.category }}">
+            {% endif %}
+        {% endfor %}
+        <div></div>
+        <button type="submit">Filter</button>
+    </form>
     <ul class="entries">
         {% for entry in entries %}
             <li><h2>{{ entry.title }}</h2>
