@@ -13,9 +13,11 @@
     </form>
     <form action="{{ url_for('show_entries') }}" method="get">
         <h2>Filter by category:</h2>
+        <h4>All categories:</h4>
+        <input type="radio" name="category" value="">
         {% for cat in categories %}
             {% if cat.category %}
-                <h4>{{ cat.category }}</h4>
+                <h4>{{ cat.category }}:</h4>
                 <input type="radio" name="category" value="{{ cat.category }}">
             {% endif %}
         {% endfor %}
