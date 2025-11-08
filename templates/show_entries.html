@@ -1,7 +1,17 @@
 {% extends "layout.html" %}
 {% block body %}
     <script>
+    function showEditForm(){
+        const form = document.getElementById("edit_entry");
 
+        form.style.display = "block";
+    }
+
+    function hideEditForm(){
+        const form = document.getElementById("edit_entry");
+
+        form.style.display = "none";
+    }
     </script>
     <form action="{{ url_for('add_entry') }}" method="post" class="add-entry">
         <dl>
@@ -32,27 +42,23 @@
             <li>
                 <h2>{{ entry.title }}</h2>
                 <h4>Text: {{ entry.text|safe }}</h4>
-                {% if entry.category %}
-                    <h4>Category: {{ entry.category | safe }}</h4>
-                {% else %}
-                    <button>Edit Entry</button>
-                    <form style ="display:none;" action="{{ url_for('edit_entry') }}" method="post" class="edit_entry">
-                        <h4> Add new title: </h4>
-                        <label>
-                            <input type="text" name="title">
-                        </label>
-                        <h4> Add new description: </h4>
-                        <label>
-                            <input type="text" name="text">
-                        </label>
-                        <h4> Add new category: </h4>
-                        <label>
-                            <input type="text" name="category">
-                        </label>
-                        <input type="hidden" name="id" value="{{ entry.id }}">
-                        <input type="submit" value="Share">
-                    </form>
-                {% endif %}
+                <button onclick="showEditForm()">Edit Entry</button>
+                <form style ="display: none;" action="{{ url_for('edit_entry') }}" method="post" class="edit_entry" id="edit_entry">
+                    <h4> Add new title: </h4>
+                    <label>
+                        <input type="text" name="title">
+                    </label>
+                    <h4> Add new description: </h4>
+                    <label>
+                        <input type="text" name="text">
+                    </label>
+                    <h4> Add new category: </h4>
+                    <label>
+                        <input type="text" name="category">
+                    </label>
+                    <input type="hidden" name="id" value="{{ entry.id }}">
+                    <input onclick="hideEditForm()" type="submit" value="Share">
+                </form>
             <form action ="{{ url_for('delete_entry') }}" method="post" class="delete-entry">
                 <input type="hidden" name="id" value="{{ entry.id }}">
                 <button type="submit">Delete Entry</button>

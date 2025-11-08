@@ -111,7 +111,7 @@ def delete_entry():
     flash('Deleted entry successfully')
     return redirect(url_for('show_entries'))
 
-@app.route('edit_entry', methods=['POST'])
+@app.route('/edit_entry', methods=['POST'])
 def edit_entry():
     db = get_db()
     db.execute('update entries set title = ?, text = ?, category = ? where id = ?',
