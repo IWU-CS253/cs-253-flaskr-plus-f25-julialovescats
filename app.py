@@ -15,7 +15,6 @@ from sqlite3 import dbapi2 as sqlite3
 from flask import Flask, request, g, redirect, url_for, render_template, flash
 
 
-
 # create our little application :)
 app = Flask(__name__)
 
@@ -110,4 +109,14 @@ def delete_entry():
 
     db.commit()
     flash('Deleted entry successfully')
+    return redirect(url_for('show_entries'))
+
+@app.route('edit_entry', methods=['POST'])
+def edit_entry():
+    db = get_db()
+    db.execute('update entries set title = ?, text = ?, category = ? where id = ?',
+               [request.form['title'], request.form['text'], request.form['category'], request.form['id']])
+
+    db.commit()
+    flash('Updated entry successfully')
     return redirect(url_for('show_entries'))
