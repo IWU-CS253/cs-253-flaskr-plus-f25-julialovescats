@@ -1,71 +1,64 @@
 {% extends "layout.html" %}
 {% block body %}
-    <script>
-    function showEditForm(){
-        const form = document.getElementById("edit_entry");
-
-        form.style.display = "block";
-    }
-
-    function hideEditForm(){
-        const form = document.getElementById("edit_entry");
-
-        form.style.display = "none";
-    }
-    </script>
-    <form action="{{ url_for('add_entry') }}" method="post" class="add-entry">
-        <dl>
-            <dt>Title:
-            <dd><input type="text" size="30" name="title">
-            <dt>Text:
-            <dd><textarea name="text" rows="5" cols="40"></textarea>
-            <dt>Category (optional):
-            <dd><input type="text" size="30" name="category">
-            <dd><input type="submit" value="Share">
-        </dl>
-    </form>
-    <form action="{{ url_for('show_entries') }}" method="get" class="filter-entries">
-        <h2>Filter by category:</h2>
-        <h4>All categories:</h4>
-        <input type="radio" name="category" value="">
-        {% for cat in categories %}
-            {% if cat.category %}
-                <h4>{{ cat.category }}:</h4>
-                <input type="radio" name="category" value="{{ cat.category }}">
-            {% endif %}
-        {% endfor %}
-        <div></div>
-        <button type="submit">Filter</button>
-    </form>
-    <ul class="entries">
-        {% for entry in entries %}
-            <li>
-                <h2>{{ entry.title }}</h2>
-                <h4>Text: {{ entry.text|safe }}</h4>
-                <button onclick="showEditForm()">Edit Entry</button>
-                <form style ="display: none;" action="{{ url_for('edit_entry') }}" method="post" class="edit_entry" id="edit_entry">
-                    <h4> Add new title: </h4>
-                    <label>
-                        <input type="text" name="title">
-                    </label>
-                    <h4> Add new description: </h4>
-                    <label>
-                        <input type="text" name="text">
-                    </label>
-                    <h4> Add new category: </h4>
-                    <label>
-                        <input type="text" name="category">
-                    </label>
+    <div class="container mt-5">
+        <form action="{{ url_for('add_entry') }}" method="post" class="add-entry">
+            <dl>
+                <dt>Title:
+                <dd><input type="text" size="30" name="title">
+                <dt>Text:
+                <dd><textarea name="text" rows="5" cols="40"></textarea>
+                <dt>Category (optional):
+                <dd><input type="text" size="30" name="category">
+                <dd><input type="submit" value="Share">
+            </dl>
+        </form>
+    </div>
+    <div class="container mt-5">
+        <form action="{{ url_for('show_entries') }}" method="get" class="filter-entries">
+            <h2>Filter by category:</h2>
+            <h4>All categories:</h4>
+            <input type="radio" name="category" value="">
+            {% for cat in categories %}
+                {% if cat.category %}
+                    <h4>{{ cat.category }}:</h4>
+                    <input type="radio" name="category" value="{{ cat.category }}">
+                {% endif %}
+            {% endfor %}
+            <div></div>
+            <button type="submit">Filter</button>
+        </form>
+    </div>
+    <div class="container mt-5">
+        <ul class="entries">
+            {% for entry in entries %}
+                <li>
+                    <h2>{{ entry.title }}</h2>
+                    <h4>Text: {{ entry.text|safe }}</h4>
+                    <button onclick="showEditForm()">Edit Entry</button>
+                    <form style ="display: none;" action="{{ url_for('edit_entry') }}" method="post" class="edit_entry" id="edit_entry">
+                        <h4> Add new title: </h4>
+                        <label>
+                            <input type="text" name="title">
+                        </label>
+                        <h4> Add new description: </h4>
+                        <label>
+                            <input type="text" name="text">
+                        </label>
+                        <h4> Add new category: </h4>
+                        <label>
+                            <input type="text" name="category">
+                        </label>
+                        <input type="hidden" name="id" value="{{ entry.id }}">
+                        <input onclick="hideEditForm()" type="submit" value="Share">
+                    </form>
+                <form action ="{{ url_for('delete_entry') }}" method="post" class="delete-entry">
                     <input type="hidden" name="id" value="{{ entry.id }}">
-                    <input onclick="hideEditForm()" type="submit" value="Share">
+                    <button type="submit">Delete Entry</button>
                 </form>
-            <form action ="{{ url_for('delete_entry') }}" method="post" class="delete-entry">
-                <input type="hidden" name="id" value="{{ entry.id }}">
-                <button type="submit">Delete Entry</button>
-            </form>
-            </li>
-        {% else %}
-            <li><em>Unbelievable. No entries here so far</em></li>
-        {% endfor %}
-    </ul>
+                </li>
+            {% else %}
+                <li><em>Unbelievable. No entries here so far</em></li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
